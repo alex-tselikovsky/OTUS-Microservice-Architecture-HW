@@ -1,0 +1,21 @@
+﻿apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "homework-miniapi.fullname" . }}-{{ .Release.Revision }}
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.job.image.repository }}:{{ .Values.job.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.job.image.pullPolicy }}
+          command: ["dotnet"]
+          args: ["migration.dll", "migrate-database"]
+          env:
+            - name: db_connection_string
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "homework-miniapi.fullname" . }}-{{ .Release.Revision }}
+                  key: db_connection_string
+      restartPolicy: {{ .Values.job.restartPolicy }}
