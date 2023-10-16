@@ -1,0 +1,33 @@
+replicaCount: 1
+
+image:
+  repository: tselofan/miniapi
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+  host: arch.homework
+
+autoscaling:
+  enabled: false
+
+serviceAccount:
+  create: false
+  
+secrets:
+  connectionstring: ""
+  
+job:
+  image:
+    repository: tselofan/migration
+    pullPolicy: IfNotPresent
+    tag: "latest"
+    ## Should the job be rescheduled on the same node if it fails, or just stopped
+  restartPolicy: Never

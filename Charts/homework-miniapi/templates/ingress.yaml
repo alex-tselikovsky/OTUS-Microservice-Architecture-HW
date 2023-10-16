@@ -1,25 +1,24 @@
-﻿apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kuber-ingress
-  namespace: app
+  name: {{ include "homework-miniapi.fullname" . }}-{{ .Release.Revision }}
 spec:
   ingressClassName: nginx
-  rules:
-     - host: arch.homework
-       http:
+  rules:  
+    - host: {{ .Values.ingress.host }}
+      http:
         paths:
           - path: /health
             pathType: Prefix
             backend:
               service:
-                name: kuber-service
+                name: {{ include "homework-miniapi.fullname" . }}-{{ .Release.Revision }}
                 port:
                   number: 80
           - path: /users
             pathType: Prefix
             backend:
               service:
-                name: kuber-service
+                name: {{ include "homework-miniapi.fullname" . }}-{{ .Release.Revision }}
                 port:
                   number: 80

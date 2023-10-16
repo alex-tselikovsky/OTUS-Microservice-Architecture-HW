@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: app
   name: kuber-dp
   labels:
     app: kuber-dp
@@ -29,3 +30,9 @@ spec:
               port: 80
             initialDelaySeconds: 20
             periodSeconds: 3
+          env:
+            - name: db_connection_string
+              valueFrom:
+                secretKeyRef:
+                  name: kuber-secret
+                  key: db_connection_string
