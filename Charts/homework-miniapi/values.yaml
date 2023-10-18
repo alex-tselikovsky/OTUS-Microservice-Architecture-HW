@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: tselofan/miniapi
-  pullPolicy: IfNotPresent
+  pullPolicy: "Always"
   tag: "latest"
 
 service:
@@ -27,7 +27,7 @@ secrets:
 job:
   image:
     repository: tselofan/migration
-    pullPolicy: IfNotPresent
+    pullPolicy: "Always"
     tag: "latest"
     ## Should the job be rescheduled on the same node if it fails, or just stopped
   restartPolicy: Never
